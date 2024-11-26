@@ -5,13 +5,28 @@ import "./Login.css";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log("Dados de Login:", { username, password });
+    if (!email || !password) {
+      setError("Por favor, preencha todos os campos.");
+      return;
+    }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        setError("Digite um email válido.");
+        return;
+      }
+      if (email === "admin@example.com" && password === "12345") {
+        alert("Login realizado com sucesso!");
+        setError("");
+      } else {
+        setError("Email ou senha incorretos.");
+      }
   };
-
+  };
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
