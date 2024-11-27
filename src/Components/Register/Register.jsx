@@ -1,40 +1,45 @@
 import { Link } from "react-router-dom"; 
 import { useState } from "react"; 
 import { FaUser, FaLock } from "react-icons/fa"; 
-import "./Login.css";
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); 
   const [error, setError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!email || !password) {
+    if (!username || !email || !password || !confirmPassword) {
       setError("Por favor, preencha todos os campos.");
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Digite um email válido.");
+    if (password !== confirmPassword) {
+      setError("As senhas não coincidem.");
       return;
     }
 
-    if (email === "admin@example.com" && password === "12345") {
-      alert("Login realizado com sucesso!");
-      setError("");
-    } else {
-      setError("Email ou senha incorretos.");
-    }
+    alert("Registro realizado com sucesso!");
+    setError("");
   };
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
-        <h1>Acesse o sistema</h1>
+        <h1>Crie sua conta</h1>
+        <div className="input-field">
+          <input
+            type="text"
+            placeholder="Nome de usuário"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <FaUser className="icon" />
+        </div>
         <div className="input-field">
           <input
             type="email"
@@ -55,18 +60,21 @@ const Login = () => {
           />
           <FaLock className="icon" />
         </div>
-
-        <div className="recall-forget">
-          <label>
-            <input type="checkbox" />
-            Lembre de mim
-          </label>
-          <a href="/forgot-password">Esqueceu sua senha?</a>
+        <div className="input-field">
+          <input
+            type="password"
+            placeholder="Confirme a senha"
+            required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <FaLock className="icon" />
         </div>
-        <button type="submit">Login</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button type="submit">Registrar</button>
         <div className="signup-link">
           <p>
-            Não tem uma conta? <Link to="/Register">Registar</Link>
+            Já tem uma conta? <Link to="/login">Fazer login</Link>
           </p>
         </div>
       </form>
@@ -74,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
